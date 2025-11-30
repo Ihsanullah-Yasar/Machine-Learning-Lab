@@ -85,10 +85,55 @@ print("Mean score:", s3.mean()) # Output: 85.0
 print("Maximum score:", s3.max()) # Output: 92
 print("Standard deviation:", s3.std()) # Output: ~7.0
 
+#-------------------------------------------
+
+#The DataFrame:The Heart of Pandas
+#A DataFrameisa2-dimensional labeled data structure.You can think of it as a dictionary of
+# Series objects that all share the same index.
+ 
+#CreatingDataFrames
+
+# Most common: From a dictionary of lists/arrays
+# Each key becomes a column name, each value becomes the column data.
+data = {
+'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+'Age': [24, 27, 22, 32],
+'Score': [88.5, 92.0, 79.5, 96.0],
+'Graduated': [True, True, False, True]
+}
+df = pd.DataFrame(data)
+print("DataFrame from dictionary:")
+print(df)
+print("\nType:", type(df))
+# Output:
+# Name Age Score Graduated
+# 0 Alice 24 88.5 True
+# 1 Bob 27 92.0 True
+# 2 Charlie 22 79.5 False
+# 3 David 32 96.0 True
+# <class ’pandas.core.frame.DataFrame’>
+
+# You can specify the row index during creation
+df_with_index = pd.DataFrame(data, index=['a', 'b', 'c', 'd'])
+print("\nDataFrame with custom index:")
+print(df_with_index)
+
+#   DataFrame with custom index:
+#         Name  Age  Score  Graduated
+#   a    Alice   24   88.5       True
+#   b      Bob   27   92.0       True
+#   c  Charlie   22   79.5      False
+#   d    David   32   96.0       True
 
 
-
-
+# Create DataFrame from a list of lists (like a 2D array)
+# You must specify the column names separately.
+ 
+data_list = [['Alice', 24, 88.5], ['Bob', 27, 92.0], ['Charlie', 22, 79.5]]
+df_from_list = pd.DataFrame(data_list, columns=['Name', 'Age', 'Score'])
+ 
+print("\nDataFrame from list of lists:")
+ print(df_from_list)
 
 
 
