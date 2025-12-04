@@ -248,6 +248,8 @@ print("Type:", type(row_0))
 subset_loc = df.loc[[0, 2], ['Name', 'Age']] # Rows 0 & 2, Columns ’Name’ & ’Age’
 print("\nSubset using .loc:")
 print(subset_loc)
+
+
 # .iloc[] is primarily INTEGER POSITION-BASED indexing.
 # Syntax: df.iloc[row_positions, column_positions]
 # It works just like indexing a NumPy array.
@@ -255,25 +257,73 @@ print(subset_loc)
 row_0_iloc = df.iloc[0] # Get row at integer position 0
 print("\nRow 0 (using .iloc):")
 print(row_0_iloc)
+
+
 # Select specific rows and columns by their integer positions
 # df.iloc[[row_start:row_stop], [col_start:col_stop]]
-subset_iloc = df.iloc[1:3, 0:2] # Rows at position 1 to 2 (exclusive of
-3), Columns at position 0 to 1 (exclusive of 2)
+subset_iloc = df.iloc[1:3, 0:2] # Rows at position 1 to 2 (exclusive of 3), Columns at position 0 to 1 (exclusive of 2)
 print("\nSubset using .iloc (rows 1-2, cols 0-1):")
 print(subset_iloc)
 # Output:
 # Name Age
 # 1 Bob 27
 # 2 Charlie 22
+
+
 # Selecting a single value (scalar)
 # Get the value at the intersection of row label 2 and column ’Score’
-value_loc = df.loc[2, ’Score’] # Output: 79.5
-# Get the value at the intersection of row position 2 and column
-position 2
+value_loc = df.loc[2, 'Score'] # Output: 79.5
+# Get the value at the intersection of row position 2 and column position 2
 value_iloc = df.iloc[2, 2] # Output: 79.5
-print(f"\nValue using .loc: {value_loc}, Value using .iloc: {value_iloc}
-")
+print(f"\nValue using .loc: {value_loc}, Value using .iloc: {value_iloc}")
 
+
+
+# Filtering Data(Boolean Indexing)
+# Just like in NumPy, you can filter DataFrames using Boolean conditions. This is one of the
+# most common operations in data analysis
+
+# Create a Boolean Series based on a condition
+high_score_mask = df['Score'] > 90
+print("Boolean Mask (Score > 90):")
+print(high_score_mask)
+# Output:
+# 0 False
+# 1 True
+# 2 False
+# 3 True
+# Name: Score, dtype: bool
+
+
+# Use the Boolean mask to filter the DataFrame
+# This returns only the rows where the condition is True.
+high_scorers_df = df[high_score_mask]
+print("\nStudents with score > 90:")
+print(high_scorers_df)
+# Output:
+# Name Age Score Graduated Passed
+# 1 Bob 27 92.0 True True
+# 3 David 32 96.0 True True
+# The most common way is to write the condition directly inside the brackets
+graduates_df = df[df['Graduated'] == True]
+print("\nStudents who have graduated:")
+print(graduates_df)
+
+# You can combine conditions using & (AND), | (OR), and ~ (NOT)
+# IMPORTANT: You MUST wrap each condition in parentheses.
+young_graduates_df = df[(df['Age'] < 30) & (df['Graduated'] == True)]
+print("\nYoung graduates (Age < 30 AND Graduated):")
+print(young_graduates_df)
+
+high_score_or_young = df[(df['Score'] > 90) | (df['Age'] < 25)]
+print("\nHigh scorers OR young students:")
+print(high_score_or_young)
+
+
+
+#Handling Missing Data
+#Real-world data is messy and often has missing values.Pandas represents missing data as ‘NaN‘
+#( Not a Number) and provides tools to handle it.
 
 
 
