@@ -5,6 +5,7 @@ Created on Thu Nov 27 14:00:32 2025
 @author: ihsan
 """
 import pandas as pd
+import numpy as np
 
 data_list= [10,20,30,40]
 
@@ -325,8 +326,73 @@ print(high_score_or_young)
 #Real-world data is messy and often has missing values.Pandas represents missing data as ‘NaN‘
 #( Not a Number) and provides tools to handle it.
 
+# Create a DataFrame with some missing values
+data_with_nan = {
+'A': [1, 2, np.nan, 4],
+'B': [np.nan, 2, 3, 4],
+'C': [1, 2, 3, 4]
+}
+df_nan = pd.DataFrame(data_with_nan)
+print("DataFrame with NaN values:")
+print(df_nan)
+# Output:
+# A B C
+# 0 1.0 NaN 1
+# 1 2.0 2.0 2
+# 2 NaN 3.0 3
+# 3 4.0 4.0 4
+
+# Check for missing values
+# .isna() returns a DataFrame of Booleans (True where NaN)
+print("\nIs NaN?")
+print(df_nan.isna())
+# .isna().sum() counts the NaN values per column-very useful!
+print("\nCount of NaN values per column:")
+print(df_nan.isna().sum())
+# Output:
+# A 1
+# B 1
+# C 0
+# dtype: int64
 
 
+
+# Drop rows that contain ANY missing values  
+
+df_dropped = df_nan.dropna()
+
+print("\nDataFrame after dropping rows with NaN:")
+print(df_dropped)
+# Output:
+# A B C
+# 1 2.0 2.0 2
+# 3 4.0 4.0 4
+# Drop columns that contain ANY missing values  
+
+df_dropped_cols = df_nan.dropna(axis=1) # axis=1 means columns
+print("\nDataFrame after dropping COLUMNS with NaN:")
+print(df_dropped_cols)
+# Output:
+# C
+# 0 1
+# 1 2
+# 2 3
+# 3 4
+
+
+# Fill missing values with a specific value
+df_filled = df_nan.fillna(0) # Replace all NaN with 0
+print("\nDataFrame with NaN filled with 0:")
+print(df_filled)
+
+
+# Fill missing values with the mean of the column
+# A common strategy for numerical data
+df_filled_mean = df_nan.copy() # Work on a copy to avoid changing  original
+
+df_filled_mean['A'] = df_filled_mean['A'].fillna(df_filled_mean['A'].mean())
+print("\nColumn 'A' with NaN filled with mean:")
+print(df_filled_mean)
 
 
 
