@@ -133,7 +133,164 @@ data_list = [['Alice', 24, 88.5], ['Bob', 27, 92.0], ['Charlie', 22, 79.5]]
 df_from_list = pd.DataFrame(data_list, columns=['Name', 'Age', 'Score'])
  
 print("\nDataFrame from list of lists:")
- print(df_from_list)
+print(df_from_list)
+
+#Understanding Data Frame Structure
+
+# .head() and .tail() show the first/last n rows (default n=5)
+print("First 2 rows:")
+print(df.head(2))
+# Output:
+# Name Age Score Graduated
+# 0 Alice 24 88.5 True
+# 1 Bob 27 92.0 True
+
+print("\nLast 2 rows:")
+print(df.tail(2))
+
+
+# .info() provides a concise summary of the DataFrame
+# This is one of the MOST USEFUL methods for understanding your data.
+print("\nDataFrame Info:")
+print(df.info())
+# Output:
+# <class ’pandas.core.frame.DataFrame’>
+# RangeIndex: 4 entries, 0 to 3
+# Data columns (total 4 columns):
+# # Column Non-Null Count Dtype
+#---------------------------
+# 0 Name 4 non-null object
+# 1 Age 4 non-null int64
+# 2 Score 4 non-null float64
+# 3 Graduated 4 non-null bool
+# dtypes: bool(1), float64(1),
+# memory usage: 198.0+ bytes
+
+# .describe() generates descriptive statistics for numerical columns
+print("\nDescriptive Statistics:")
+print(df.describe())
+# Output:
+# Age Score
+# count 4.000000 4.000000
+# mean 26.250000 89.000000
+# std 4.349329 7.098965
+# min 22.000000 79.500000
+# 25% 23.500000 85.125000
+# 50% 25.500000 90.250000
+# 75% 28.250000 92.750000
+# max 32.000000 96.000000
+
+# Access the underlying NumPy array
+print("\nNumPy representation:")
+print(df.values)
+# Output:
+# [[’Alice’ 24 88.5 True]
+# [’Bob’ 27 92.0 True]
+# [’Charlie’ 22 79.5 False]
+# [’David’ 32 96.0 True]]
+
+
+
+#Data Access and Indexing in DataFrames
+#Accessing data in a DataFrame is versatile but requires understanding a few key methods to
+#avoid confusion: [], .loc[] , and .iloc[]. 
+
+
+
+# Select a single column-> Returns a Series
+age_series = df['Age']
+print("Age Column (Series):")
+print(age_series)
+print("Type:", type(age_series))
+# Output:
+# 0 24
+# 1 27
+# 2 22
+# 3 32
+# Name: Age, dtype: int64
+# <class ’pandas.core.series.Series’>
+
+
+# Select multiple columns-> Returns a DataFrame
+subset_df = df[['Name', 'Score']] # Note the double brackets
+print("\nSubset DataFrame (Name and Score):")
+print(subset_df)
+print("Type:", type(subset_df))
+# Output:
+# Name Score
+# 0 Alice 88.5
+# 1 Bob 92.0
+# 2 Charlie 79.5
+# 3 David 96.0
+# <class ’pandas.core.frame.DataFrame’>
+
+
+# Create a new column through assignment
+df['Passed'] = df['Score'] > 85 # Creates a Boolean column
+print("\nDataFrame with new ’Passed’ column:")
+print(df)
+
+#Selecting Rows: .loc[] and .iloc[]
+#This is a critical concept. Pandas provides two primary indexers for selecting rows and columns
+#by label or by integer position.
+
+
+# .loc[] is primarily LABEL-BASED indexing.
+# Syntax: df.loc[row_labels, column_labels]
+# Select a single row by its index label-> Returns a Series
+row_0 = df.loc[0] # Get row with index label ’0’
+print("Row 0 (using .loc):")
+print(row_0)
+print("Type:", type(row_0))
+
+
+# Select specific rows and columns by their labels
+subset_loc = df.loc[[0, 2], ['Name', 'Age']] # Rows 0 & 2, Columns ’Name’ & ’Age’
+print("\nSubset using .loc:")
+print(subset_loc)
+# .iloc[] is primarily INTEGER POSITION-BASED indexing.
+# Syntax: df.iloc[row_positions, column_positions]
+# It works just like indexing a NumPy array.
+# Select the first row (position 0)
+row_0_iloc = df.iloc[0] # Get row at integer position 0
+print("\nRow 0 (using .iloc):")
+print(row_0_iloc)
+# Select specific rows and columns by their integer positions
+# df.iloc[[row_start:row_stop], [col_start:col_stop]]
+subset_iloc = df.iloc[1:3, 0:2] # Rows at position 1 to 2 (exclusive of
+3), Columns at position 0 to 1 (exclusive of 2)
+print("\nSubset using .iloc (rows 1-2, cols 0-1):")
+print(subset_iloc)
+# Output:
+# Name Age
+# 1 Bob 27
+# 2 Charlie 22
+# Selecting a single value (scalar)
+# Get the value at the intersection of row label 2 and column ’Score’
+value_loc = df.loc[2, ’Score’] # Output: 79.5
+# Get the value at the intersection of row position 2 and column
+position 2
+value_iloc = df.iloc[2, 2] # Output: 79.5
+print(f"\nValue using .loc: {value_loc}, Value using .iloc: {value_iloc}
+")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
